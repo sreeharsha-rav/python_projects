@@ -3,7 +3,7 @@
 Tic Tac Toe is a classic 2-player game implemented in Python, designed to be played directly in the terminal. It offers a fun and interactive way to challenge a friend or family member to a strategic battle of X's and O's.
 
 <!-- Image GIF of project -->
-![Tic Tac Toe](tic_tac_toe\tictactoe_py.gif)
+![Tic Tac Toe](./tic_tac_toe/tictactoe_py.gif)
 
 ### Installation and Usage
 <!-- How to install and run the project? -->
