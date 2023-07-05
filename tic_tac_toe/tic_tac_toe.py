@@ -18,7 +18,6 @@ class Player:
     def add_score(self):
         # function to increment player score
         self.score += 1
-        return
 
 class GamePlay:
     def __init__(self):
@@ -43,16 +42,16 @@ class GamePlay:
         print("    T     IIIIIII  CCCCCCC        T    A       A  CCCCCCC        T     OOOOOOO  EEEEEEE ")
         print("                                                                                        ")
         print("########################################################################################")
-        return
     
     def print_options(self):
         # function to print the introductory options
         print("                                                                                        ")
-        print("                                      a> Play Game                                      ")
-        print("                                      b> Quit Game                                      ")
+        print("                                 a> Play Game - 2 Player                                ")
+        # TODO: Add player vs cpu
+        #print("                                 b> Play Game - vs CPU                                  ")
+        print("                                 b> Quit Game                                           ")
         print("                                                                                        ")
         print("________________________________________________________________________________________")
-        return
 
     def demo_board(self):
         # function to show tic tac toe board positions
@@ -63,18 +62,15 @@ class GamePlay:
         print("      |---|---|---|")
         print("      | 7 | 8 | 9 |")
         print("       ----------- \n")
-        return
 
     def set_players(self, p1, p2):
         # function to set player instances
         self.player1 = Player(p1)
         self.player2 = Player(p2)
-        return
     
     def set_current_player(self):
         # function to set current player
         self.current_player = self.player1
-        return
     
     def display_score(self):
         # function to display score:
@@ -82,7 +78,6 @@ class GamePlay:
             print(f"\nSCORE:\n  Player X = {self.player1.score}\n  Player O = {self.player2.score}\n  Draws: {self.draws}\n\n")
         else:
             print(f"\nSCORE:\n  Player X = {self.player2.score}\n  Player O = {self.player1.score}\n  Draws: {self.draws}\n\n")
-        return
 
     def game_board(self):
         # function to show tic tac toe board positions
@@ -93,7 +88,6 @@ class GamePlay:
         print("      |---|---|---|")
         print(f"      | {self.game_pos[7]} | {self.game_pos[8]} | {self.game_pos[9]} |")
         print("       ----------- ")
-        return
     
     def player_input(self):
         # function to take player input
@@ -104,17 +98,23 @@ class GamePlay:
             inp_pos = int(input("Again, enter an empty position number 1-9: "))
         
         self.game_pos[inp_pos] = self.current_player.get_play_char()  # set player on game board
-        return
     
+    def check_three(self, a, b, c):
+        # helper function to check game postions
+        if self.game_pos[a] == self.game_pos[b] == self.game_pos[c] and self.game_pos[a] != ' ':
+            return True
+        else:
+            return False
+
     def check_row(self):
         # function to check if row of game board is matching
-        if self.game_pos[1] == self.game_pos[2] == self.game_pos[3] and self.game_pos[2] != ' ':
+        if self.check_three(1,2,3):
             self.winner = self.game_pos[1]
             return True
-        elif self.game_pos[4] == self.game_pos[5] == self.game_pos[6] and self.game_pos[5] != ' ':
+        elif self.check_three(4,5,6):
             self.winner = self.game_pos[4]
             return True
-        elif self.game_pos[7] == self.game_pos[8] == self.game_pos[9] and self.game_pos[8] != ' ':
+        elif self.check_three(7,8,9):
             self.winner = self.game_pos[7]
             return True 
         else:
@@ -122,13 +122,13 @@ class GamePlay:
         
     def check_column(self):
         # function to check if column of game board is matching
-        if self.game_pos[1] == self.game_pos[4] == self.game_pos[7] and self.game_pos[4] != ' ':
+        if self.check_three(1,4,7):
             self.winner = self.game_pos[1]
             return True
-        elif self.game_pos[2] == self.game_pos[5] == self.game_pos[8] and self.game_pos[5] != ' ':
+        elif self.check_three(2,5,8):
             self.winner = self.game_pos[2]
             return True
-        elif self.game_pos[3] == self.game_pos[6] == self.game_pos[9] and self.game_pos[6] != ' ':
+        elif self.check_three(3,6,9):
             self.winner = self.game_pos[3]
             return True
         else:
@@ -136,10 +136,10 @@ class GamePlay:
         
     def check_diagonal(self):
         # function to check if diagonal of game board is matching
-        if self.game_pos[1] == self.game_pos[5] == self.game_pos[9] and self.game_pos[5] != ' ':
+        if self.check_three(1,5,9):
             self.winner = self.game_pos[1]
             return True
-        elif self.game_pos[3] == self.game_pos[5] == self.game_pos[7] and self.game_pos[5] != ' ':
+        elif self.check_three(3,5,7):
             self.winner = self.game_pos[3]
             return True
         else:
@@ -164,8 +164,6 @@ class GamePlay:
             else:
                 self.player2.add_score()
             self.game_running = False
-        else:
-            return
         
     def switch_player(self):
         # function to switch current player
@@ -173,7 +171,6 @@ class GamePlay:
             self.current_player = self.player2
         else:
             self.current_player = self.player1
-        return
     
     def rematch(self):
         # function to handle rematch
@@ -207,7 +204,6 @@ class GamePlay:
             print("   GAME HAS ENDED   ")
             self.display_score()    # display score after game
             self.rematch()
-        return
 
     def quit_game(self):
         # function to exit out of the game
@@ -225,11 +221,12 @@ if __name__ == '__main__':
         print("INVALID OPTION")
         print("")
         game_option = input("Choose option a or b: ").lower()
-
-    # start and select play character
+    
+    # handle game options
     if game_option == 'a':
+        # handle 2 player option
         print("  Player O vs Player X")
-        print("\n ...Random Coin Toss... \n")
+        print("\n ...Coin Toss... \n")
         time.sleep(2)   # delay for 2 seconds
         if (random.randint(0,1) == 1):  # randomly decide who is going first
             game1.set_players('X', 'O') # set player instances in game
@@ -239,9 +236,19 @@ if __name__ == '__main__':
             print("    Player O goes first")
         game1.set_current_player()  # set current player
     else:
+        # handle quit option
         game1.quit_game()
     time.sleep(1)   # delay for 1 second
-
+    '''
+    TODO: Add player vs cpu
+    elif game_option == 'b':
+        # handle player vs computer option
+        play_char = input("Player -> choose X or O: ").upper()  # input player character
+        while play_char not in ['X', 'O']:
+            print("INVALID CHARACTER")
+            print("")
+            play_char = input("Player -> choose X or O: ").upper()
+    '''
     # start the game
     while True:
         game1.play_game()
